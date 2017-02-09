@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+  wordpress:
+    build:
+      context: .
+      dockerfile: ./docker/wordpress/Dockerfile
+    volumes:
+      - ./wp-content:/var/www/html/wp-content:rw
+
+  nginx:
+    networks:
+      - default
+      - tripvissnginxproxy_default
+
+networks:
+  default: {}
+  tripvissnginxproxy_default:
+    external: true

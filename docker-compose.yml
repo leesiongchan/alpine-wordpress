@@ -1,0 +1,27 @@
+version: "2"
+
+services:
+  wordpress:
+    depends_on:
+      - db
+    env_file: ./docker/wordpress/.env
+    image: ahlee2326/wordpress
+    links:
+      - db
+    restart: always
+
+  db:
+    env_file: ./docker/db/.env
+    image: mariadb
+    restart: always
+    volumes:
+      - ./.data/db:/var/lib/mysql
+
+  nginx:
+    env_file: ./docker/nginx/.env
+    image: raulr/nginx-wordpress
+    links:
+      - wordpress
+    restart: always
+    volumes_from:
+      - wordpress
